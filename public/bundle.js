@@ -86,6 +86,102 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./js/parts/ajax.js":
+/*!**************************!*\
+  !*** ./js/parts/ajax.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var ajax = function ajax() {
+  var message = {
+    loading: 'Загрузка...',
+    success: 'Спасибо! Скоро мы с вами свяжемся',
+    failure: 'Что-то пошло не так...'
+  };
+  var statusMessage = document.createElement('div');
+  statusMessage.classList.add('status');
+
+  function formSend(elem) {
+    var input = elem.getElementsByTagName('input'); // elem.addEventListener('submit', function (e) {
+    // elem.preventDefault();
+
+    elem.appendChild(statusMessage);
+    var formData = new FormData(elem);
+    var obj = {};
+    formData.forEach(function (value, key) {
+      obj[key] = value;
+    });
+    var json = JSON.stringify(obj);
+
+    function postData(data) {
+      return new Promise(function (resolve, reject) {
+        var request = new XMLHttpRequest();
+        request.open("POST", 'server.php');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8'); // JSON
+
+        request.onreadystatechange = function () {
+          if (request.readyState < 4) {
+            resolve();
+          } else if (request.readyState === 4) {
+            if (request.status == 200 && request.status < 3) {
+              resolve();
+            } else {
+              reject();
+            }
+          }
+        };
+
+        request.send(json); // JSON
+      });
+    } // end postData
+
+
+    postData(formData).then(function () {
+      return statusMessage.innerHTML = message.loading;
+    }).then(function () {
+      statusMessage.innerHTML = message.success;
+    }).catch(function () {
+      return statusMessage.innerHTML = message.failure;
+    }).then(clearInput).then(setTimeout(function () {
+      statusMessage.remove();
+    }, 2000));
+
+    function clearInput() {
+      for (var i = 0; i < input.length; i++) {
+        input[i].value = ''; // Очищаем инпуты  
+      }
+    } // });
+
+  }
+
+  var callForm = document.querySelectorAll('.form');
+  callForm.forEach(function (item) {
+    item.addEventListener('submit', function () {
+      formSend(item);
+    });
+  });
+  var tel = document.querySelectorAll('[name = user_phone]');
+
+  var checkValidSum = function checkValidSum(input) {
+    return /^(8|\+7|\+)\d{0,10}$/.test(input); // return /^\d{0,11}$/.test(input.value);
+  };
+
+  tel.forEach(function (item) {
+    item.addEventListener('input', function () {
+      if (item != 0) {
+        if (!checkValidSum(item.value)) {
+          item.value = item.value.slice(0, -1);
+        }
+      }
+    });
+  });
+};
+
+module.exports = ajax;
+
+/***/ }),
+
 /***/ "./js/script.js":
 /*!**********************!*\
   !*** ./js/script.js ***!
@@ -101,6 +197,10 @@ __webpack_require__(/*! nodelist-foreach-polyfill */ "./node_modules/nodelist-fo
 
 window.addEventListener('DOMContentLoaded', function () {
   'use strict';
+
+  var ajax = __webpack_require__(/*! ./parts/ajax */ "./js/parts/ajax.js");
+
+  ajax();
 });
 
 /***/ }),

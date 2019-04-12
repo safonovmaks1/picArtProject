@@ -59,6 +59,11 @@ h3,
 h4 {
   font-family: 'Circe Extra Bold', sans-serif;
 }
+
+.status {
+  display: block;
+  color: red;
+}
 .p15 {
   font-size: 1.5;
 }
@@ -199,7 +204,7 @@ h4 {
   padding: 2rem;
 }
 .header .burger-menu li:hover {
-  backgrund-color: #eed4d2;
+  background-color: #eed4d2;
 }
 .header .burger-menu li a {
   color: inherit;

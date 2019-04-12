@@ -99,60 +99,62 @@ var ajax = function ajax() {
     success: 'Спасибо! Скоро мы с вами свяжемся',
     failure: 'Что-то пошло не так...'
   };
-  var statusMessage = document.createElement('div');
+  var input = document.querySelectorAll('form > input'),
+      statusMessage = document.createElement('div');
   statusMessage.classList.add('status');
 
   function formSend(elem) {
-    var input = elem.getElementsByTagName('input'); // elem.addEventListener('submit', function (e) {
-    // elem.preventDefault();
-
-    elem.appendChild(statusMessage);
-    var formData = new FormData(elem);
-    var obj = {};
-    formData.forEach(function (value, key) {
-      obj[key] = value;
-    });
-    var json = JSON.stringify(obj);
-
-    function postData(data) {
-      return new Promise(function (resolve, reject) {
-        var request = new XMLHttpRequest();
-        request.open("POST", 'server.php');
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8'); // JSON
-
-        request.onreadystatechange = function () {
-          if (request.readyState < 4) {
-            resolve();
-          } else if (request.readyState === 4) {
-            if (request.status == 200 && request.status < 3) {
-              resolve();
-            } else {
-              reject();
-            }
-          }
-        };
-
-        request.send(json); // JSON
+    elem.addEventListener('submit', function (e) {
+      e.preventDefault();
+      elem.appendChild(statusMessage);
+      var formData = new FormData(elem);
+      var obj = {};
+      formData.forEach(function (value, key) {
+        obj[key] = value;
       });
-    } // end postData
+      var json = JSON.stringify(obj);
+
+      function postData() {
+        return new Promise(function (resolve, reject) {
+          var request = new XMLHttpRequest();
+          request.open("POST", 'server.php');
+          request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8'); // JSON
+
+          request.onreadystatechange = function () {
+            if (request.readyState < 4) {
+              resolve();
+            } else if (request.readyState === 4) {
+              if (request.status == 200 && request.status < 3) {
+                resolve();
+              } else {
+                reject();
+              }
+            }
+          };
+
+          request.send(json); // JSON
+        });
+      } // end postData
 
 
-    postData(formData).then(function () {
-      return statusMessage.innerHTML = message.loading;
-    }).then(function () {
-      statusMessage.innerHTML = message.success;
-    }).catch(function () {
-      return statusMessage.innerHTML = message.failure;
-    }).then(clearInput).then(setTimeout(function () {
-      statusMessage.remove();
-    }, 2000));
+      postData(formData).then(function () {
+        return statusMessage.innerHTML = message.loading;
+      }).then(function () {
+        // thanksModal.style.display = 'block';
+        // overlay.style.display = 'none';
+        statusMessage.innerHTML = message.success;
+      }).catch(function () {
+        return statusMessage.innerHTML = message.failure;
+      }).then(clearInput).then(setTimeout(function () {
+        statusMessage.remove();
+      }, 2000));
 
-    function clearInput() {
-      for (var i = 0; i < input.length; i++) {
-        input[i].value = ''; // Очищаем инпуты  
+      function clearInput() {
+        for (var i = 0; i < input.length; i++) {
+          input[i].value = ''; // Очищаем инпуты  
+        }
       }
-    } // });
-
+    });
   }
 
   var callForm = document.querySelectorAll('.form');
@@ -164,7 +166,7 @@ var ajax = function ajax() {
   var tel = document.querySelectorAll('[name = user_phone]');
 
   var checkValidSum = function checkValidSum(input) {
-    return /^(8|\+7|\+)\d{0,10}$/.test(input); // return /^\d{0,11}$/.test(input.value);
+    return /^(8|\+7|\+)\d{0,10}$/.test(input);
   };
 
   tel.forEach(function (item) {
@@ -179,6 +181,60 @@ var ajax = function ajax() {
 };
 
 module.exports = ajax;
+
+/***/ }),
+
+/***/ "./js/parts/popup.js":
+/*!***************************!*\
+  !*** ./js/parts/popup.js ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var popup = function popup() {
+  var popupDesign = document.querySelector('.popup-design'),
+      popupConsultation = document.querySelector('.popup-consultation'),
+      popupGift = document.querySelector('.popup-gift');
+  document.addEventListener('click', function (e) {
+    // e.preventDefault();
+    var target = e.target;
+
+    if (target.classList.contains('button-design')) {
+      popupDesign.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    if (target.classList.contains('button-consultation')) {
+      popupConsultation.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    if (target.classList.contains('fixed-gift')) {
+      popupGift.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  function closeModal() {
+    popupDesign.style.display = 'none';
+    popupConsultation.style.display = 'none';
+    popupGift.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('popup-close')) {
+      closeModal();
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.keyCode === 27) {
+      closeModal();
+    }
+  });
+};
+
+module.exports = popup;
 
 /***/ }),
 
@@ -200,7 +256,10 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var ajax = __webpack_require__(/*! ./parts/ajax */ "./js/parts/ajax.js");
 
+  var popup = __webpack_require__(/*! ./parts/popup */ "./js/parts/popup.js");
+
   ajax();
+  popup();
 });
 
 /***/ }),

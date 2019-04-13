@@ -86,6 +86,54 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./js/parts/accordion.js":
+/*!*******************************!*\
+  !*** ./js/parts/accordion.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var accordion = function accordion() {
+  var accordion = document.querySelector('#accordion'),
+      // info 
+  titles = document.querySelectorAll('.accordion-heading'),
+      // tab
+  blocks = document.querySelectorAll('.accordion-block'); // tabcon
+
+  function hideBlock(a) {
+    titles[a].style.color = '';
+    blocks[a].style.display = 'none';
+  }
+
+  function showBlock(b) {
+    titles[b].style.color = '#c51abb';
+    blocks[b].style.display = 'block';
+  }
+
+  [].forEach.call(blocks, function (el, i) {
+    if (i === 0) {
+      showBlock(i);
+    } else {
+      hideBlock(i);
+    }
+  });
+  accordion.addEventListener('click', function (e) {
+    if (e.target.parentElement.classList.contains('accordion-heading')) {
+      [].forEach.call(titles, function (el, i) {
+        if (el === e.target.parentElement) {
+          showBlock(i);
+        } else {
+          hideBlock(i);
+        }
+      });
+    }
+  });
+};
+
+module.exports = accordion;
+
+/***/ }),
+
 /***/ "./js/parts/ajax.js":
 /*!**************************!*\
   !*** ./js/parts/ajax.js ***!
@@ -238,6 +286,65 @@ module.exports = popup;
 
 /***/ }),
 
+/***/ "./js/parts/sliderDown.js":
+/*!********************************!*\
+  !*** ./js/parts/sliderDown.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var sliderDown = function sliderDown() {
+  var slideIndex = 1,
+      slides = document.querySelectorAll('.feedback-slider-item'),
+      prev = document.querySelector('.main-prev-btn'),
+      next = document.querySelector('.main-next-btn');
+  showSlides(slideIndex);
+
+  function showSlides(n) {
+    if (n > slides.length) {
+      slideIndex = 1;
+    }
+
+    if (n < 1) {
+      slideIndex = slides.length;
+    }
+
+    slides.forEach(function (item) {
+      item.style.display = 'none'; // item.classList.add('animated', 'slideInRight');
+    });
+    slideIndex++;
+
+    if (slideIndex > slides.length) {
+      slideIndex = 1;
+    }
+
+    slides[slideIndex - 1].style.display = 'block';
+    slides[slideIndex - 1].classList.add('animated');
+    slides[slideIndex - 1].classList.add('slideInRight');
+    slides[slideIndex - 1].classList.remove('slideInLeft');
+    setTimeout(showSlides, 12000);
+  }
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  prev.addEventListener('click', function () {
+    plusSlides(-1);
+    slides[slideIndex - 1].classList.remove('slideInRight');
+    slides[slideIndex - 1].classList.add('slideInLeft');
+  });
+  next.addEventListener('click', function () {
+    plusSlides(1);
+    slides[slideIndex - 1].classList.remove('slideInLeft');
+    slides[slideIndex - 1].classList.add('slideInRight');
+  });
+};
+
+module.exports = sliderDown;
+
+/***/ }),
+
 /***/ "./js/script.js":
 /*!**********************!*\
   !*** ./js/script.js ***!
@@ -258,8 +365,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var popup = __webpack_require__(/*! ./parts/popup */ "./js/parts/popup.js");
 
+  var sliderDown = __webpack_require__(/*! ./parts/sliderDown */ "./js/parts/sliderDown.js");
+
+  var accordion = __webpack_require__(/*! ./parts/accordion */ "./js/parts/accordion.js");
+
   ajax();
   popup();
+  sliderDown();
+  accordion();
 });
 
 /***/ }),

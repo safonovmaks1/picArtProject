@@ -7,8 +7,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let ajax = require('./parts/ajax');
     let popup = require('./parts/popup');
+    let sliderDown = require('./parts/sliderDown');
+    let accordion  = require('./parts/accordion');
 
     ajax();
     popup();
+    sliderDown();
+    accordion();
 
 });

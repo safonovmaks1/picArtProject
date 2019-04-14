@@ -188,8 +188,6 @@ var ajax = function ajax() {
       postData(formData).then(function () {
         return statusMessage.innerHTML = message.loading;
       }).then(function () {
-        // thanksModal.style.display = 'block';
-        // overlay.style.display = 'none';
         statusMessage.innerHTML = message.success;
       }).catch(function () {
         return statusMessage.innerHTML = message.failure;
@@ -229,6 +227,59 @@ var ajax = function ajax() {
 };
 
 module.exports = ajax;
+
+/***/ }),
+
+/***/ "./js/parts/calc.js":
+/*!**************************!*\
+  !*** ./js/parts/calc.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var calc = function calc() {
+  var size = document.querySelector('#size'),
+      material = document.querySelector('#material'),
+      options = document.querySelector('#options'),
+      calcPrice = document.querySelector('.calc-price'),
+      promocode = document.querySelector('.promocode'),
+      calcForm = size.parentElement;
+  var prices = {
+    sizePrice: [1000, 2000, 3000, 4000],
+    materialPrice: [2000, 3000, 1000],
+    optionsPrice: [3000, 2000, 4000]
+  };
+  var totalSum = 0;
+
+  function calc() {
+    if (size.selectedIndex > 0 && material.selectedIndex > 0) {
+      totalSum = prices.sizePrice[size.selectedIndex - 1] + prices.materialPrice[material.selectedIndex - 1];
+
+      if (options.selectedIndex > 0) {
+        totalSum += prices.optionsPrice[options.selectedIndex - 1];
+      }
+
+      if (promocode.value.trim().toUpperCase() === 'IWANTPOPART') {
+        totalSum = totalSum * 0.7;
+      }
+
+      calcPrice.textContent = totalSum.toString();
+    } else {
+      calcPrice.textContent = 'Для расчета нужно выбрать размер картины и материал картины';
+    }
+  }
+
+  calcForm.addEventListener('change', function (e) {
+    if (e.target.tagName === 'SELECT') {
+      calc();
+    }
+  });
+  promocode.addEventListener('input', function () {
+    calc();
+  });
+};
+
+module.exports = calc;
 
 /***/ }),
 
@@ -369,10 +420,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var accordion = __webpack_require__(/*! ./parts/accordion */ "./js/parts/accordion.js");
 
+  var calc = __webpack_require__(/*! ./parts/calc */ "./js/parts/calc.js");
+
   ajax();
   popup();
   sliderDown();
   accordion();
+  calc();
 });
 
 /***/ }),

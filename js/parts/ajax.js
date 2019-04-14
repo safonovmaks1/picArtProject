@@ -50,8 +50,6 @@ let ajax = () => {
             postData(formData)
                 .then(() => statusMessage.innerHTML = message.loading)
                 .then(() => {
-                    // thanksModal.style.display = 'block';
-                    // overlay.style.display = 'none';
                     statusMessage.innerHTML = message.success;
                 })
                 .catch(() => statusMessage.innerHTML = message.failure)

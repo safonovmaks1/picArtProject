@@ -9,10 +9,12 @@ window.addEventListener('DOMContentLoaded', () => {
     let popup = require('./parts/popup');
     let sliderDown = require('./parts/sliderDown');
     let accordion  = require('./parts/accordion');
+    let calc  = require('./parts/calc');
 
     ajax();
     popup();
     sliderDown();
     accordion();
+    calc();
 
 });

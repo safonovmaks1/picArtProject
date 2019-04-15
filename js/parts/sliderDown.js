@@ -16,34 +16,46 @@ let sliderDown = () => {
         }
         slides.forEach((item) => { 
             item.style.display = 'none';
-            // item.classList.add('animated', 'slideInRight');
         });
-        slideIndex++;
         if (slideIndex > slides.length) { 
             slideIndex = 1; 
         }
         slides[slideIndex - 1].style.display = 'block';
         slides[slideIndex - 1].classList.add('animated');
         slides[slideIndex - 1].classList.add('slideInRight');
-        slides[slideIndex - 1].classList.remove('slideInLeft');
-        setTimeout(showSlides, 12000);
-        
     }
+
+
+    function autoSlides() {
+        slides.forEach((item) => {
+            item.style.display = 'none';
+        });
+        slideIndex++;
+        if (slideIndex > slides.length) { 
+            slideIndex = 1; 
+        }
+        slides[slideIndex - 1].style.display = "block";
+        slides[slideIndex - 1].classList.add('animated');
+        slides[slideIndex - 1].classList.add('slideInRight');
+
+        setTimeout(autoSlides, 5000); // Change image every 2 seconds
+    }
+    autoSlides();
 
     function plusSlides(n) {
         showSlides(slideIndex += n);
     }
     prev.addEventListener('click', () => {
         plusSlides(-1);
-        
         slides[slideIndex - 1].classList.remove('slideInRight');
         slides[slideIndex - 1].classList.add('slideInLeft');
+
     });
     next.addEventListener('click', () => {
         plusSlides(1);
-       
         slides[slideIndex - 1].classList.remove('slideInLeft');
         slides[slideIndex - 1].classList.add('slideInRight');
+
     });
 
 };

@@ -12,27 +12,26 @@ let ajax = () => {
     statusMessage.classList.add('status');
 
     function formSend(elem) {
-        elem.addEventListener('submit', function (e) {
+        elem.addEventListener('submit', (e) => {
             e.preventDefault();
             elem.appendChild(statusMessage);
-            let formData = new FormData(elem);
 
+            let formData = new FormData(elem);
             let obj = {};
             formData.forEach(function (value, key) {
                 obj[key] = value;
             });
-
             let json = JSON.stringify(obj);
 
-            function postData() {
+            function postData(data) {
                 return new Promise(function (resolve, reject) {
                     let request = new XMLHttpRequest();
 
                     request.open("POST", 'server.php');
 
-                    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8'); // JSON
+                    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
-                    request.onreadystatechange = function () {
+                    request.onreadystatechange = () => {
                         if (request.readyState < 4) {
                             resolve();
                         } else if (request.readyState === 4) {
@@ -43,9 +42,9 @@ let ajax = () => {
                             }
                         }
                     };
-                    request.send(json); // JSON
+                    request.send(json);
                 });
-            } // end postData
+            }
 
             postData(formData)
                 .then(() => statusMessage.innerHTML = message.loading)
@@ -60,22 +59,23 @@ let ajax = () => {
 
             function clearInput() {
                 for (let i = 0; i < input.length; i++) {
-                    input[i].value = ''; // Очищаем инпуты  
+                    input[i].value = ''; 
                 }
             }
         });
+        return false;
     }
 
-    let callForm = document.querySelectorAll('.form');
+    let callForm = document.querySelectorAll('form');
         callForm.forEach((item) => {
             item.addEventListener('submit', () => {
                 formSend(item);
             });
         });
 
-    let tel = document.querySelectorAll('[name = user_phone]');
+    let tel = document.querySelectorAll('[name = phone]');
 
-    let checkValidSum = (input) => {
+    let checkValidSum = input => {
         return /^(8|\+7|\+)\d{0,10}$/.test(input);
     };
 

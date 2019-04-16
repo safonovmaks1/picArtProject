@@ -6,14 +6,14 @@ let ajax = () => {
         failure: 'Что-то пошло не так...',
     };
 
-    let input = document.querySelectorAll('form > input'),
+    let input = document.querySelectorAll('[type="text"]'),
         statusMessage = document.createElement('div');
 
     statusMessage.classList.add('status');
 
     function formSend(elem) {
         elem.addEventListener('submit', (e) => {
-            // e.preventDefault();
+            e.preventDefault();
             elem.appendChild(statusMessage);
 
             let formData = new FormData(elem);
@@ -23,11 +23,12 @@ let ajax = () => {
             });
             let json = JSON.stringify(obj);
 
-            function postData(data) {
+            function postData() {
+
                 return new Promise(function (resolve, reject) {
                     let request = new XMLHttpRequest();
 
-                    request.open("POST", 'server.php');
+                    request.open('POST', 'server.php');
 
                     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
@@ -46,6 +47,13 @@ let ajax = () => {
                 });
             }
 
+            function clearInput() {
+                for (let i = 0; i < input.length; i++) {
+                    input[i].value = '';
+                    // console.log('xnjnj ');
+                }
+            }
+
             postData(formData)
                 .then(() => statusMessage.innerHTML = message.loading)
                 .then(() => {
@@ -57,13 +65,7 @@ let ajax = () => {
                     statusMessage.remove();
                 }, 2000));
 
-            function clearInput() {
-                for (let i = 0; i < input.length; i++) {
-                    input[i].value = ''; 
-                }
-            }
         });
-        // return false;
     }
 
     let callForm = document.querySelectorAll('form');

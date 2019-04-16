@@ -147,13 +147,13 @@ var ajax = function ajax() {
     success: 'Спасибо! Скоро мы с вами свяжемся',
     failure: 'Что-то пошло не так...'
   };
-  var input = document.querySelectorAll('form > input'),
+  var input = document.querySelectorAll('[type="text"]'),
       statusMessage = document.createElement('div');
   statusMessage.classList.add('status');
 
   function formSend(elem) {
     elem.addEventListener('submit', function (e) {
-      // e.preventDefault();
+      e.preventDefault();
       elem.appendChild(statusMessage);
       var formData = new FormData(elem);
       var obj = {};
@@ -162,10 +162,10 @@ var ajax = function ajax() {
       });
       var json = JSON.stringify(obj);
 
-      function postData(data) {
+      function postData() {
         return new Promise(function (resolve, reject) {
           var request = new XMLHttpRequest();
-          request.open("POST", 'server.php');
+          request.open('POST', 'server.php');
           request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
           request.onreadystatechange = function () {
@@ -184,6 +184,12 @@ var ajax = function ajax() {
         });
       }
 
+      function clearInput() {
+        for (var i = 0; i < input.length; i++) {
+          input[i].value = ''; // console.log('xnjnj ');
+        }
+      }
+
       postData(formData).then(function () {
         return statusMessage.innerHTML = message.loading;
       }).then(function () {
@@ -193,13 +199,7 @@ var ajax = function ajax() {
       }).then(clearInput).then(setTimeout(function () {
         statusMessage.remove();
       }, 2000));
-
-      function clearInput() {
-        for (var i = 0; i < input.length; i++) {
-          input[i].value = '';
-        }
-      }
-    }); // return false;
+    });
   }
 
   var callForm = document.querySelectorAll('form');

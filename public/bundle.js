@@ -153,7 +153,7 @@ var ajax = function ajax() {
 
   function formSend(elem) {
     elem.addEventListener('submit', function (e) {
-      e.preventDefault();
+      // e.preventDefault();
       elem.appendChild(statusMessage);
       var formData = new FormData(elem);
       var obj = {};
@@ -199,13 +199,13 @@ var ajax = function ajax() {
           input[i].value = '';
         }
       }
-    });
-    return false;
+    }); // return false;
   }
 
   var callForm = document.querySelectorAll('form');
   callForm.forEach(function (item) {
-    item.addEventListener('submit', function () {
+    item.addEventListener('submit', function (e) {
+      e.preventDefault();
       formSend(item);
     });
   });

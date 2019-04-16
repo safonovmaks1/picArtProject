@@ -13,7 +13,7 @@ let ajax = () => {
 
     function formSend(elem) {
         elem.addEventListener('submit', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             elem.appendChild(statusMessage);
 
             let formData = new FormData(elem);
@@ -63,12 +63,13 @@ let ajax = () => {
                 }
             }
         });
-        return false;
+        // return false;
     }
 
     let callForm = document.querySelectorAll('form');
         callForm.forEach((item) => {
-            item.addEventListener('submit', () => {
+            item.addEventListener('submit', (e) => {
+                e.preventDefault();
                 formSend(item);
             });
         });

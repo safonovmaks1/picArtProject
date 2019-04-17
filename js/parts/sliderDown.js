@@ -35,8 +35,7 @@ let sliderDown = () => {
             slideIndex = 1; 
         }
         slides[slideIndex - 1].style.display = "block";
-        slides[slideIndex - 1].classList.add('animated');
-        slides[slideIndex - 1].classList.add('slideInRight');
+        slides[slideIndex - 1].classList.add('animated', 'slideInRight');
 
         setTimeout(autoSlides, 5000); // Change image every 2 seconds
     }

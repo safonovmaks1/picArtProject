@@ -95,19 +95,19 @@
 
 var accordion = function accordion() {
   var accordion = document.querySelector('#accordion'),
-      // info 
-  titles = document.querySelectorAll('.accordion-heading'),
-      // tab
-  blocks = document.querySelectorAll('.accordion-block'); // tabcon
+      titles = document.querySelectorAll('.accordion-heading'),
+      blocks = document.querySelectorAll('.accordion-block');
 
   function hideBlock(a) {
     titles[a].style.color = '';
     blocks[a].style.display = 'none';
+    blocks[a].classList.remove('animated', 'fadeInDown');
   }
 
   function showBlock(b) {
     titles[b].style.color = '#c51abb';
     blocks[b].style.display = 'block';
+    blocks[b].classList.add('animated', 'fadeInDown');
   }
 
   [].forEach.call(blocks, function (el, i) {
@@ -432,8 +432,7 @@ var sliderDown = function sliderDown() {
     }
 
     slides[slideIndex - 1].style.display = "block";
-    slides[slideIndex - 1].classList.add('animated');
-    slides[slideIndex - 1].classList.add('slideInRight');
+    slides[slideIndex - 1].classList.add('animated', 'slideInRight');
     setTimeout(autoSlides, 5000); // Change image every 2 seconds
   }
 

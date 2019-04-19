@@ -11,7 +11,7 @@ let filter = () => {
             [].forEach.call(portfolioMenuItems, elem => {
                 if (elem === e.target) {
                     if (e.target.classList.contains('active')) {
-                        return; 
+                        return;
                     }
                     if (elem.classList.value === 'grandmother' || elem.classList.value === 'granddad') {
                         portfolioBlocks[0].parentElement.style.display = 'none';

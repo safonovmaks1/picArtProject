@@ -1,4 +1,4 @@
-let calc = () => { 
+let calc = () => {
 
     let size = document.querySelector('#size'),
         material = document.querySelector('#material'),

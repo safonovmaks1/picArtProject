@@ -9,9 +9,9 @@ window.addEventListener('DOMContentLoaded', () => {
     let ajax = require('./parts/ajax');
     let popup = require('./parts/popup');
     let sliderDown = require('./parts/sliderDown');
-    let accordion  = require('./parts/accordion');
-    let calc  = require('./parts/calc');
-    let filter  = require('./parts/filter');
+    let accordion = require('./parts/accordion');
+    let calc = require('./parts/calc');
+    let filter = require('./parts/filter');
 
     ajax();
     popup();

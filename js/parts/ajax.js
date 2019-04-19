@@ -69,12 +69,12 @@ let ajax = () => {
     }
 
     let callForm = document.querySelectorAll('form');
-        callForm.forEach((item) => {
-            item.addEventListener('submit', (e) => {
-                e.preventDefault();
-                formSend(item);
-            });
+    callForm.forEach((item) => {
+        item.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formSend(item);
         });
+    });
 
     let tel = document.querySelectorAll('[name = phone]');
 
